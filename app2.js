@@ -35,29 +35,44 @@ submitBtn.addEventListener('click', function (e) {
   const title = document.getElementById('title').value;
   console.log(title);
 
+  var data = { title: `${title}`, ingr: `${ingredients}` };
+
   // const recipe = { title: `${title}`, ingr: [ingredients] };
   // console.log(recipe);
 
-  // Fetch Request //
-  const url = `https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${appKey}`;
+  async function getNutrition() {
+    const response = await fetch(
+      `https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${appKey}`,
+      {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)({
+          title: `${title}`,
+          ingr: `${ingredients}`,
+        }),
+      }
+    );
+  }
 
-  // post body data
-  const body = { title: `${title}`, ingr: [ingredients] };
+  const nutrition = response.json();
+  console.log(nutrition);
+  // console.log(nutrition.totalNutrients.CHOCDF);
 
-  // create request object
-  const request = new Request(url, {
-    mode: 'no-cors',
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    }),
-  });
+  const carbs = nutrition.totalNutrients.CHOCDF;
+  const fat = nutrition.totalNutrients.FAT;
+  const protein = nutrition.totalNutrients.PROCNT;
 
-  // send POST request
+  console.log(Math.floor(carbs.quantity) + 'g');
+  console.log(Math.floor(fat.quantity) + 'g');
+  console.log(Math.floor(protein.quantity) + 'g');
 
-  fetch(request)
-    .then((res) => res.json())
-    .then((res) => console.log(res));
+  // setSort(nutrition);
+  // addCards(nutrition);
+  nutritionData = nutrition;
+
+  getNutrition();
 });
