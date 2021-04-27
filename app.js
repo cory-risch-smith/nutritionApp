@@ -7,7 +7,7 @@ const addBtn = document.getElementById('addBtn');
 
 const userIngredient = document.getElementById('userData');
 
-// var finalUserData;
+var finalUserData;
 
 addBtn.addEventListener('click', function (e) {
   e.preventDefault();
@@ -41,13 +41,11 @@ submitBtn.addEventListener('submit', function (e) {
   }
 
   finalUserData = reconstructed.slice(0, -3);
-  // console.log(finalUserData);
+  console.log(finalUserData);
 
   //*************--- Passing Data through to API ---************//
 
   const mainElement = document.querySelector('main');
-
-  let nutritionData;
 
   let title = document.getElementById('title');
 
@@ -88,7 +86,6 @@ submitBtn.addEventListener('submit', function (e) {
 
   // setSort(nutrition);
   // addCards(nutrition);
-  nutritionData = nutrition;
 
   getNutrition();
 });

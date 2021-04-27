@@ -35,44 +35,44 @@ submitBtn.addEventListener('click', function (e) {
   const title = document.getElementById('title').value;
   console.log(title);
 
-  var data = { title: `${title}`, ingr: `${ingredients}` };
-
   // const recipe = { title: `${title}`, ingr: [ingredients] };
   // console.log(recipe);
 
-  async function getNutrition() {
-    const response = await fetch(
-      `https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${appKey}`,
-      {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)({
-          title: `${title}`,
-          ingr: `${ingredients}`,
-        }),
-      }
-    );
-  }
-
-  const nutrition = response.json();
-  console.log(nutrition);
-  // console.log(nutrition.totalNutrients.CHOCDF);
-
-  const carbs = nutrition.totalNutrients.CHOCDF;
-  const fat = nutrition.totalNutrients.FAT;
-  const protein = nutrition.totalNutrients.PROCNT;
-
-  console.log(Math.floor(carbs.quantity) + 'g');
-  console.log(Math.floor(fat.quantity) + 'g');
-  console.log(Math.floor(protein.quantity) + 'g');
-
-  // setSort(nutrition);
-  // addCards(nutrition);
-  nutritionData = nutrition;
-
   getNutrition();
 });
+
+async function getNutrition() {
+  const response = await fetch(
+    `https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${appKey}`,
+    {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        title: `${title}`,
+        ingr: [`${ingredients}`],
+      }),
+    }
+  );
+
+  const nutrition = response;
+  console.log(nutrition);
+}
+
+// // console.log(nutrition.totalNutrients.CHOCDF);
+
+// const carbs = nutrition.totalNutrients.CHOCDF;
+// const fat = nutrition.totalNutrients.FAT;
+// const protein = nutrition.totalNutrients.PROCNT;
+
+// console.log(Math.floor(carbs.quantity) + 'g');
+// console.log(Math.floor(fat.quantity) + 'g');
+// console.log(Math.floor(protein.quantity) + 'g');
+
+// // setSort(nutrition);
+// // addCards(nutrition);
+// nutritionData = nutrition;
